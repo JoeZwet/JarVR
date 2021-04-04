@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "jarvr",
+  "version": "${version}",
+  "name": "JarVR",
+  "description": "A Fabric replacement for Vivecraft",
+  "authors": [
+    "JoeZwet"
+  ],
+  "contact": {
+    "website": "https://mods.joezwet.me",
+    "repo": "https://github.com/JoeZwet/JarVR"
+  },
+  "license": "MIT",
+  "icon": "assets/jarvr/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": ["dev.joezwet.jarvr.client.JarVRClient"],
+    "main": ["dev.joezwet.jarvr.JarVR"]
+  },
+  "mixins": ["JarVR.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "*"
+  }
+}
