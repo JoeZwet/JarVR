@@ -1,4 +1,5 @@
 import java.time.Year
+import org.gradle.internal.os.OperatingSystem
 
 plugins {
     id("fabric-loom") version "0.7-SNAPSHOT"
@@ -10,7 +11,14 @@ val minecraftVersion = "21w13a"
 val yarnBuild = "43"
 val loaderVersion = "0.11.3"
 val fabricVersion = "0.32.6+1.17"
-//val modmenuVersion = "1.16.8"
+val lwjglVersion = "3.2.2"
+
+val lwjglNatives = when (OperatingSystem.current()) {
+    OperatingSystem.LINUX   -> "natives-linux"
+    OperatingSystem.MAC_OS  -> "natives-macos"
+    OperatingSystem.WINDOWS -> "natives-windows"
+    else -> throw Error("Unrecognized or unsupported Operating system. Please set \"lwjglNatives\" manually")
+}
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -25,9 +33,8 @@ version = "0.0.0${getVersionDecoration()}"
 group = "dev.joezwet"
 
 repositories {
-//    maven("https://maven.terraformersmc.com/releases/") {
-//        content { includeGroup("com.terraformersmc") }
-//    }
+    mavenCentral()
+
 }
 
 dependencies {
@@ -36,7 +43,9 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:$loaderVersion")
 
     modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricVersion")
-//    modImplementation("com.terraformersmc:modmenu:$modmenuVersion")
+
+    include(modImplementation("org.lwjgl:lwjgl-openvr:$lwjglVersion") { isTransitive = false } )
+    include(runtimeOnly("org.lwjgl:lwjgl-openvr:$lwjglVersion:$lwjglNatives") { isTransitive = false })
 }
 
 tasks.processResources {
